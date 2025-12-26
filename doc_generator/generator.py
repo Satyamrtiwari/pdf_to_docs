@@ -8,21 +8,20 @@ from docx.enum.table import WD_TABLE_ALIGNMENT
 def generate_mediation_form(output_path="output/generated.docx"):
     doc = Document()
 
-    # ================= PAGE MARGINS =================
+    #code for page margings
     section = doc.sections[0]
     section.top_margin = Pt(36)
     section.bottom_margin = Pt(36)
     section.left_margin = Pt(36)
     section.right_margin = Pt(36)
 
-    # ================= HEADING HELPER =================
+   #code for header
     def center_bold(text):
         p = doc.add_paragraph(text)
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         p.runs[0].bold = True
 
-    # ================= HEADINGS =================
-    center_bold("FORM ‘A’")
+    center_bold("FORM ‘A’")     #code for headeline
     center_bold("MEDIATION APPLICATION FORM")
     center_bold("[REFER RULE 3(1)]")
 
@@ -34,13 +33,12 @@ def generate_mediation_form(output_path="output/generated.docx"):
 
     doc.add_paragraph("")
 
-    # ================= TABLE =================
+    # code for tables
     table = doc.add_table(rows=0, cols=3)
     table.style = "Table Grid"
     table.alignment = WD_TABLE_ALIGNMENT.CENTER
 
 
-    # 🔑 CRITICAL FIX: disable autofit + force column widths
     table.autofit = False
     table.columns[0].width = Inches(0.5)   # Serial No.
     table.columns[1].width = Inches(2.5)   # Label
@@ -60,10 +58,9 @@ def generate_mediation_form(output_path="output/generated.docx"):
         elif merge == "right":
             cells[1].merge(cells[2])
 
-    # ================= DETAILS OF PARTIES =================
+   #    code for applicants and opposite party details
     add_row("DETAILS OF PARTIES:", merge="all")
 
-    # -------- Applicant --------
     add_row("1", "Name of Applicant", "{{client_name}}")
     add_row("", "Address and contact details of Applicant", "", merge="right")
     add_row(
@@ -76,7 +73,7 @@ def generate_mediation_form(output_path="output/generated.docx"):
     add_row("", "Mobile No.", "")
     add_row("", "Email ID", "info@kslegal.co.in")
 
-    # -------- Opposite Party --------
+    # code  Opposite Party
     add_row("2", "Name, Address and Contact details of Opposite Party:", "", merge="right")
     add_row("", "Address and contact details of Defendant/s", "", merge="right")
     add_row("", "Name", "{{customer_name}}")
@@ -92,7 +89,7 @@ def generate_mediation_form(output_path="output/generated.docx"):
     add_row("", "Mobile No.", "")
     add_row("", "Email ID", "")
 
-    # ================= DETAILS OF DISPUTE =================
+    # disputes code 
     add_row("DETAILS OF DISPUTE:", merge="all")
     add_row(
         "",
@@ -108,6 +105,6 @@ def generate_mediation_form(output_path="output/generated.docx"):
         merge="right"
     )
 
-    # ================= SAVE =================
+    # saving the document
     doc.save(output_path)
     return output_path
