@@ -5,8 +5,34 @@ import os
 app = Flask(__name__)
 
 @app.route("/")
+@app.route("/")
 def home():
-    return "to get document add '/generate' to the url"
+    return """
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>PDF to DOCX</title>
+        </head>
+        <body style="display:flex; justify-content:center; align-items:center; height:100vh; font-family:Arial;">
+            <form action="/generate" method="get">
+                <button 
+                    type="submit"
+                    style="
+                        padding:12px 20px;
+                        font-size:16px;
+                        cursor:pointer;
+                        border-radius:6px;
+                        border:1px solid #333;
+                        background-color:#f5f5f5;
+                    "
+                >
+                    Click to get document
+                </button>
+            </form>
+        </body>
+    </html>
+    """
+
 
 @app.route("/generate", methods=["GET"])
 def generate():
